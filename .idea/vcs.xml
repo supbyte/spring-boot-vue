@@ -4,6 +4,5 @@
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/springboot-backend" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/springboot-frontend" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/springboot-frontend/springboot-backend" vcs="Git" />
   </component>
 </project>
