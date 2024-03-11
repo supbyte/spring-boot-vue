@@ -1,4 +1,0 @@
-[submodule "springboot-backend"]
-	url  = https://gitee.com/subpyte/spring-boot-vue
-	path = springboot-backend
-
