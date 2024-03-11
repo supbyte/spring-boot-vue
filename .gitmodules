@@ -2,3 +2,7 @@
 	url  = https://gitee.com/subpyte/spring-boot-vue
 	path = springboot-backend
 
+[submodule "springboot-frontend"]
+	url  = https://gitee.com/subpyte/spring-boot-vue
+	path = springboot-frontend
+
