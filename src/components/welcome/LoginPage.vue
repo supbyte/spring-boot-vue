@@ -11,7 +11,7 @@
 </head>
 
 <template>
-  <div style="text-align: center;margin: 0 20px;">
+  <div style="text-align: center;margin-left: 25px">
     <div style="margin-top: 150px;">
       <div style="font-size: 25px;">登录</div>
       <div style="font-size: 14px;color: grey;margin-top: 15px">在进入系统之前请先输入用户名和密码进行登录</div>
@@ -22,7 +22,7 @@
           <el-icon><UserFilled /></el-icon>
         </template>
       </el-input>
-      <el-input v-model="form.password" style="margin-top: 10px;" type="text" placeholder="请输入密码">
+      <el-input v-model="form.password" style="margin-top: 10px;" type="password" placeholder="请输入密码">
         <template #prefix>
           <el-icon><WalletFilled /></el-icon>
         </template>
@@ -45,7 +45,7 @@
       <span style="color: grey">没有账号?</span>
     </el-divider>
     <div style="margin-top: 20px">
-      <el-button style="width: 170px;" type="warning" plain>立即注册</el-button>
+      <el-button @click="router.push('/register')" style="width: 170px;" type="warning" plain>立即注册</el-button>
     </div>
   </div>
 </template>

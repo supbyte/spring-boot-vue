@@ -2,6 +2,7 @@
 // module.exports = defineConfig({
 //   transpileDependencies: true,
 // })
+
 var webpack=require('webpack')
 const path = require('path');
 function resolve (dir) {
@@ -27,6 +28,9 @@ module.exports = {
         $: "jquery",
         jQuery: "jquery",
         "windows.jQuery": "jquery"
+      }),
+      require('unplugin-element-plus/webpack')({
+        // options
       })
     ]
   }

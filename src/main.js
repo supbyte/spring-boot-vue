@@ -12,9 +12,7 @@ import "element-plus/dist/index.css";
 // 导入 element-plus 图标
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import axios from "axios";
-// 导入全局样式
-// import "@/styles/index.scss";
-// 创建 vue 实例
+
 const app = createApp(App);
 // 使用router\vuex\element-plus并挂载
 app.use(ElementPlus).use(router).use(store).mount("#app");

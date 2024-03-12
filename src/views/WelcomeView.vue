@@ -11,7 +11,7 @@
 </head>
 
 <template>
-  <div style="width: 100vw;height: 100vh;overflow: hidden;display: flex">
+  <div style="width: 98vw;height: 97vh;overflow: hidden;display: flex">
     <div style="flex: 1">
       <el-image style="width: 100%;height: 100%"  src="https://free4kwallpapers.com/uploads/originals/2019/05/18/awesome-himalayas-wallpaper.jpg"/>
     </div>
@@ -19,8 +19,12 @@
       <div style="font-size: 30px;font-weight: bold;margin-bottom: 10px">欢迎来到我们的学习平台</div>
       <div>在这里你可以学习如何使用Java，如何搭建网站，并且与Java之父密切交流</div>
     </div>
-    <div style="width: 400px;background-color: white;">
-      <router-view/>
+    <div style="width: 400px;background-color: white;z-index: 1">
+      <router-view v-slot="{ Component }">
+        <transition name="el-zoom-in-center" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </div>
   </div>
 </template>
