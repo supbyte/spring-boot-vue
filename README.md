@@ -1,7 +1,7 @@
 # SpringBoot-Vue
 
 #### 介绍
-基于SpringBoot+Vue的前后端分离项目
+基于SpringBoot+Vue+Session校验的前后端分离项目
 
 #### 软件架构
 软件架构说明
