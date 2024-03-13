@@ -35,6 +35,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, PersistentTokenRepository repository) throws Exception {
         return http.authorizeHttpRequests(auth->{
+            auth.requestMatchers("/api/auth/**").permitAll();
             auth.anyRequest().authenticated();
         }).formLogin(conf->{
             conf.loginProcessingUrl("/api/auth/login"); //登录请求路径
