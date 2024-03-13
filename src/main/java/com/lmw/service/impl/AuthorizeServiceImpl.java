@@ -5,6 +5,7 @@ import com.lmw.mapper.AccountMapper;
 import com.lmw.service.AuthorizeService;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
@@ -12,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -30,6 +32,9 @@ public class AuthorizeServiceImpl implements AuthorizeService {
     JavaMailSender sender;
     @Resource
     StringRedisTemplate template;
+    @Lazy
+    @Resource
+    BCryptPasswordEncoder encoder;
 
 
     @Override
@@ -56,7 +61,7 @@ public class AuthorizeServiceImpl implements AuthorizeService {
      * 5.用户在注册时，再从Redis里面取出键值对，查看验证码是否一致
      * */
     @Override
-    public boolean sendValidateEmail(String email, String sessionId) {
+    public String sendValidateEmail(String email, String sessionId) {
         // 构建Redis键
         String key = "email:" + sessionId + ":" + email;
 
@@ -65,8 +70,13 @@ public class AuthorizeServiceImpl implements AuthorizeService {
             //获取Redis中键 key 的过期时间（以秒为单位），如果获取到的过期时间为null，则将其设为 0秒
             Long expire = Optional.ofNullable(template.getExpire(key, TimeUnit.SECONDS)).orElse(0L);
             if (expire > 120) {
-                return false; // 如果过期时间大于120秒（2分钟），直接返回false
+                return "请求频繁，请稍后再试"; // 如果过期时间大于120秒（2分钟），直接返回false
             }
+        }
+
+        //查看数据库是否以及存在该用户
+        if (mapper.findAccountByUsernameOrEmail(email) != null){
+            return "此邮箱已被其他用户注册";
         }
 
         // 生成随机验证码
@@ -87,11 +97,38 @@ public class AuthorizeServiceImpl implements AuthorizeService {
             // 将验证码存入Redis并设置过期时间为3分钟
             template.opsForValue().set(key, String.valueOf(code), 3, TimeUnit.MINUTES);
 
-            return true; // 发送成功，返回true
+            return null; // 发送成功，返回true
         } catch (MailException e) {
             e.printStackTrace(); // 打印异常信息
-            return false; // 发送失败，返回false
+            return "邮件发送失败，检查邮件地址是否有效"; // 发送失败，返回false
         }
+    }
+
+    @Override
+    public String validateAndRegister(Account account, String code, String sessionId) {
+        //构建 Redis 键
+        String key = "email:" + sessionId + ":" + account.getEmail();
+        //判断是否存在该键值对
+        if (Boolean.TRUE.equals(template.hasKey(key))){
+            //通过键获取值
+            String value = template.opsForValue().get(key);
+            //若值为null说明此时验证码正好过期
+            if (value==null){
+                return "验证码失效，请重新登录";
+            //不为空则判断前后端验证码是否一致
+            }else if (value.equals(code)){
+                //存储数据之前先将密码加密
+                account.setPassword(encoder.encode(account.getPassword()));
+                //返回值大于0说明保存成功
+                if (mapper.saveAccount(account)>0){
+                    return null;
+                }
+                return "内部错误，请联系管理员";
+            }else {
+                return "验证码错误，请重新提交";
+            }
+        }
+        return "请先获取验证码";
     }
 
 }
