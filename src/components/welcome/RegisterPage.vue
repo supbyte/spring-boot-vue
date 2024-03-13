@@ -20,21 +20,21 @@
     <div style="margin-top: 30px">
       <el-form :model="form" :rules="rules" @validate="onValidate" ref="formRef">
         <el-form-item prop="username">
-          <el-input v-model="form.username" type="text" placeholder="用户名">
+          <el-input v-model="form.username" :maxlength="8" type="text" placeholder="用户名">
             <template #prefix>
               <el-icon><UserFilled /></el-icon>
             </template>
           </el-input>
         </el-form-item>
         <el-form-item prop="password">
-          <el-input v-model="form.password" type="password" placeholder="密码">
+          <el-input v-model="form.password" :maxlength="16" type="password" placeholder="密码">
             <template #prefix>
               <el-icon><WalletFilled /></el-icon>
             </template>
           </el-input>
         </el-form-item>
         <el-form-item prop="password_repeat">
-          <el-input v-model="form.password_repeat" type="password" placeholder="确认密码">
+          <el-input v-model="form.password_repeat" :maxlenth="16" type="password" placeholder="确认密码">
             <template #prefix>
               <el-icon><WalletFilled /></el-icon>
             </template>
@@ -135,6 +135,7 @@ const rules = {
 const formRef = ref()
 const isEmailValid = ref(false)
 const coldTime = ref(0)
+
 
 const onValidate = (prop, isValid) => {
   if(prop === 'email')

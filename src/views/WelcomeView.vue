@@ -19,12 +19,16 @@
       <div style="font-size: 30px;font-weight: bold;margin-bottom: 10px">欢迎来到我们的学习平台</div>
       <div>在这里你可以学习如何使用Java，如何搭建网站，并且与Java之父密切交流</div>
     </div>
-    <div style="width: 400px;background-color: white;z-index: 1">
-      <router-view v-slot="{ Component }">
-        <transition name="el-zoom-in-center" mode="out-in">
-          <component :is="Component" />
-        </transition>
-      </router-view>
+    <div  style="width: 400px;background-color: white;z-index: 1">
+<!--      路由跳转但不自动刷新页面跟缓存keep-alive有关，将<router-view/>放入<keep-alive>中 -->
+      <keep-alive exclude="searchResult">
+        <router-view  v-slot="{ Component }" :key="$route.fullPath">
+          <transition name="el-zoom-in-center" mode="out-in" appear="appear">
+            <component :is="Component" style="height: 100%"/>
+          </transition>
+        </router-view>
+      </keep-alive>
+
     </div>
   </div>
 </template>
