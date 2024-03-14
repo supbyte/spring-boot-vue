@@ -1,6 +1,6 @@
 package com.lmw.controller;
 
-import com.lmw.entity.Account;
+import com.lmw.entity.auth.Account;
 import com.lmw.entity.RestBean;
 import com.lmw.service.AuthorizeService;
 import jakarta.annotation.Resource;

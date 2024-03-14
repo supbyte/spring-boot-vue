@@ -1,6 +1,6 @@
 package com.lmw.service;
 
-import com.lmw.entity.Account;
+import com.lmw.entity.auth.Account;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 

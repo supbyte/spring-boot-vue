@@ -1,4 +1,4 @@
-package com.lmw.entity;
+package com.lmw.entity.auth;
 
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
