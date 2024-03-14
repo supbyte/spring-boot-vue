@@ -12,7 +12,7 @@
 
 <template>
   <div>
-    欢迎进入到学习平台
+    欢迎<span v-if="store.auth.user!=null">{{store.auth.user.username}}</span>进入到学习平台
   </div>
   <el-button @click="logout" type="danger">退出登录</el-button>
 </template>
@@ -21,13 +21,19 @@
   import {get} from "@/net";
   import {ElMessage} from "element-plus";
   import router from "@/router";
+  import {useStore} from "@/stores";
+
+  const store = useStore()
 
   const logout = ()=>{
     get('api/auth/logout',(data)=>{
       ElMessage.success(data);
+      store.auth.user = null;
       router.push('/');
     })
   }
+
+
 
 </script>
 

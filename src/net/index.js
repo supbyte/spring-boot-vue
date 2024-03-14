@@ -22,9 +22,6 @@ function post(url, data, success, failure = defaultFailure,error=defaultError){
 
 function get(url, success, failure = defaultFailure,error=defaultError){
     axios.get(url,{
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
         withCredentials: true
     }).then(({data})=>{
         if (data.success){
@@ -35,4 +32,4 @@ function get(url, success, failure = defaultFailure,error=defaultError){
     }).catch(error)
 }
 
-export { get, post }
+export   { get, post }
